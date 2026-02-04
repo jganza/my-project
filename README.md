@@ -228,6 +228,112 @@ GlowGuide is a mobile app concept for women to upload selfies and receive person
 - `pm_steps` (jsonb)
 - `created_at` (timestamp)
 
+## API Contracts (Draft)
+
+### Authentication
+**POST** `/api/v1/auth/signup`
+- Request:
+  ```json
+  {"email":"user@email.com","password":"string","displayName":"Nadia"}
+  ```
+- Response:
+  ```json
+  {"userId":"uuid","token":"jwt"}
+  ```
+
+**POST** `/api/v1/auth/login`
+- Request:
+  ```json
+  {"email":"user@email.com","password":"string"}
+  ```
+- Response:
+  ```json
+  {"userId":"uuid","token":"jwt"}
+  ```
+
+### Selfies & Analysis
+**POST** `/api/v1/selfies`
+- Request: `multipart/form-data` with `image` file.
+- Response:
+  ```json
+  {"selfieId":"uuid","status":"pending"}
+  ```
+
+**GET** `/api/v1/selfies/{selfieId}`
+- Response:
+  ```json
+  {"selfieId":"uuid","status":"complete","analysisId":"uuid"}
+  ```
+
+**GET** `/api/v1/analyses/{analysisId}`
+- Response:
+  ```json
+  {
+    "analysisId":"uuid",
+    "faceShape":"oval",
+    "skinTone":"medium",
+    "undertone":"warm",
+    "features":{"eyeShape":"almond","lipShape":"full"},
+    "confidence":{"faceShape":0.88,"undertone":0.81}
+  }
+  ```
+
+### Recommendations
+**GET** `/api/v1/recommendations?analysisId=uuid&type=makeup`
+- Response:
+  ```json
+  {
+    "items":[
+      {"productId":"uuid","brand":"Brand X","name":"Foundation","shade":"W320","reason":"Warm undertone match","purchaseUrl":"https://..."}
+    ]
+  }
+  ```
+
+### Skincare Routines
+**POST** `/api/v1/routines`
+- Request:
+  ```json
+  {"concerns":["acne","dryness"],"sensitivity":"low"}
+  ```
+- Response:
+  ```json
+  {"routineId":"uuid","amSteps":["cleanser","vitamin c"],"pmSteps":["cleanser","retinol"]}
+  ```
+
+### Subscription
+**POST** `/api/v1/subscriptions/verify`
+- Request:
+  ```json
+  {"platform":"ios","receipt":"base64"}
+  ```
+- Response:
+  ```json
+  {"status":"active","expiresAt":"2025-01-01T00:00:00Z"}
+  ```
+
+## Data Labeling Plan
+
+### Objectives
+- Produce labeled datasets for face shape, undertone, and facial features.
+- Ensure diversity across skin tones, ages, and facial structures.
+
+### Data Sources
+- Opt-in user selfies with explicit consent and anonymization.
+- Licensed datasets and synthetic augmentation for underrepresented groups.
+
+### Labeling Taxonomy
+- **Face shape:** oval, round, square, heart, diamond, oblong.
+- **Undertone:** cool, warm, neutral.
+- **Features:** eye shape, brow type, lip shape, nose bridge, cheekbones.
+
+### Quality & Review
+- Two-pass labeling with inter-annotator agreement checks.
+- Expert review panel for edge cases and bias audits.
+
+### Governance
+- Delete raw images after feature extraction when possible.
+- Maintain audit logs for dataset provenance and consent.
+
 ## Launch Planning Details
 
 ### Pre-Launch
@@ -346,4 +452,4 @@ GlowGuide is a mobile app concept for women to upload selfies and receive person
 - **Phase 3:** Partner integrations with brands and retail links.
 
 ---
-If you want, I can expand this further into detailed API contracts or a data labeling plan.
+If you want, I can expand this further into detailed analytics instrumentation or a model evaluation plan.
