@@ -334,6 +334,57 @@ GlowGuide is a mobile app concept for women to upload selfies and receive person
 - Delete raw images after feature extraction when possible.
 - Maintain audit logs for dataset provenance and consent.
 
+## Analytics Instrumentation Plan
+
+### Events (Client + Server)
+- `onboarding_started` / `onboarding_completed`
+- `selfie_capture_started` / `selfie_capture_completed`
+- `analysis_requested` / `analysis_completed` (include latency + confidence)
+- `recommendation_viewed` (type: makeup/hair/skincare)
+- `recommendation_clicked` (product_id, brand, category)
+- `ar_tryon_started` / `ar_tryon_completed` (surface: makeup/hair)
+- `subscription_prompt_viewed` / `subscription_purchased`
+- `routine_saved` / `routine_reminder_enabled`
+
+### Event Properties (Examples)
+- `device_tier` (low/medium/high)
+- `network_state` (offline/online)
+- `analysis_confidence` (faceShape, undertone)
+- `session_id`, `user_id` (hashed)
+
+### Dashboards & KPIs
+- Activation funnel: onboarding → selfie → analysis → recommendation view.
+- Engagement: AR try-on usage rate, routine saves.
+- Commerce: recommendation CTR → purchase click-through.
+- Subscription: paywall view → conversion rate.
+
+### Data Quality & Privacy
+- Use privacy-safe identifiers and opt-in analytics.
+- Sampling for high-volume events (e.g., AR frames).
+- Data retention aligned with privacy policy.
+
+## Model Evaluation Plan
+
+### Offline Evaluation
+- **Face shape classification:** accuracy, macro-F1, confusion matrix by subgroup.
+- **Undertone detection:** macro-F1, calibration error, per-tone recall.
+- **Feature mapping:** landmark error (NME), attribute accuracy.
+
+### Online Evaluation
+- A/B testing of recommendation ranking models.
+- Track lift in CTR, conversion, and user-reported satisfaction.
+- Monitor confidence drift and false-positive rates.
+
+### Fairness & Bias Audits
+- Evaluate performance across skin tones, age groups, and lighting conditions.
+- Set minimum performance thresholds per subgroup.
+- Regular re-audits every model release.
+
+### Model Monitoring
+- Track input distribution drift (tone, lighting, face shape).
+- Alert on confidence drops and prediction anomalies.
+- Version models with rollback strategy.
+
 ## Launch Planning Details
 
 ### Pre-Launch
