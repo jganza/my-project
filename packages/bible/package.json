@@ -1,0 +1,19 @@
+{
+  "name": "@adonai/bible",
+  "version": "0.1.0",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "bible:import": "tsx import-web.ts",
+    "validate:import": "tsx validate-import.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.16.0",
+    "csv-parse": "^5.5.6"
+  },
+  "devDependencies": {
+    "tsx": "^4.16.0",
+    "vitest": "^2.0.5"
+  }
+}
